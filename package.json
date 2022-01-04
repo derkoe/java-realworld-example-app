@@ -1,0 +1,17 @@
+{
+  "name": "java-realworld-example-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "prettier": "^2.5.1",
+    "prettier-plugin-java": "^1.6.0"
+  },
+  "scripts": {
+    "prettier": "prettier -c '**/*.java'"
+  },
+  "prettier": {
+    "printWidth": 120
+  }
+}
