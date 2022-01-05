@@ -21,7 +21,11 @@ public class Comment {
   private UUID id;
 
   private String body;
+
+  @Column(name = "user_id")
   private UUID userId;
+
+  @Column(name = "article_id")
   private UUID articleId;
 
   @CreationTimestamp
