@@ -22,7 +22,8 @@ public class SecurityFilter implements ContainerRequestFilter {
 
   @Override
   public void filter(ContainerRequestContext requestContext) {
-    if (securityCtx.getUserPrincipal() instanceof JsonWebToken userPrincipal) {
+    if (securityCtx.getUserPrincipal() instanceof JsonWebToken) {
+      JsonWebToken userPrincipal = (JsonWebToken) securityCtx.getUserPrincipal();
       authCtx.userId = UUID.fromString(userPrincipal.getSubject());
     }
   }
