@@ -49,6 +49,11 @@
       <artifactId>spring-boot-configuration-processor</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.springframework.experimental</groupId>
+      <artifactId>spring-native</artifactId>
+      <version>0.11.1</version>
+    </dependency>
+    <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
     </dependency>
@@ -67,11 +72,36 @@
         <version>${spring-boot.version}</version>
         <configuration>
           <excludeDevtools>true</excludeDevtools>
+          <image>
+            <builder>paketobuildpacks/builder:tiny</builder>
+            <env>
+              <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+            </env>
+          </image>
         </configuration>
         <executions>
           <execution>
             <goals>
               <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.experimental</groupId>
+        <artifactId>spring-aot-maven-plugin</artifactId>
+        <version>0.11.1</version>
+        <executions>
+          <execution>
+            <id>generate</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>test-generate</id>
+            <goals>
+              <goal>test-generate</goal>
             </goals>
           </execution>
         </executions>
