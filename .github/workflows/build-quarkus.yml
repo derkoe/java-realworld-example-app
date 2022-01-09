@@ -16,7 +16,11 @@ jobs:
         with:
           java-version: 11
           distribution: adopt
-      - name: Build Native
+      - name: Docker login
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: echo "${GITHUB_TOKEN}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - name: Build native
         run: |
           mvn -B install
           mvn -B package -Pnative -pl :realworld-example-app-quarkus
@@ -25,6 +29,4 @@ jobs:
         run: docker build -f quarkus/src/main/docker/Dockerfile.native -t ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_REF:11} quarkus
       - name: Push image to ghcr.io
         if: ${{ github.event_name != 'pull_request'}}
-        run: |
-          echo ${{ secrets.GHCR_PASSWORD }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
-          docker push ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_REF:11}
+        run: docker push ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_REF:11}
