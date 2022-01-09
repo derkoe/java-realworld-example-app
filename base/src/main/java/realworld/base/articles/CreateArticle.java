@@ -1,6 +1,6 @@
 package realworld.base.articles;
 
-import java.util.Set;
+import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +15,5 @@ public class CreateArticle {
   String title;
   String description;
   String body;
-  Set<String> tagList;
+  List<String> tagList;
 }
