@@ -1,0 +1,30 @@
+name: Build Quarkus
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: adopt
+      - name: Build Native
+        run: |
+          mvn -B install
+          mvn -B package -Pnative -pl :realworld-example-app-quarkus
+      - name: Build Native Image
+        if: ${{ github.event_name != 'pull_request'}}
+        run: docker build -f src/main/docker/Dockerfile.native -t ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_REF:11} .
+      - name: Push image to ghcr.io
+        if: ${{ github.event_name != 'pull_request'}}
+        run: |
+          echo ${{ secrets.GHCR_PASSWORD }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+          docker push ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_REF:11}
