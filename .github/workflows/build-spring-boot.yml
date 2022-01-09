@@ -1,4 +1,4 @@
-name: Build Quarkus
+name: Build Spring Boot
 
 on:
   push:
@@ -19,12 +19,11 @@ jobs:
       - name: Build native image
         run: |
           mvn -B install
-          mvn -B package -Pnative -pl :realworld-example-app-quarkus
-          docker build -f quarkus/src/main/docker/Dockerfile.native -t ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_REF:11} quarkus
+          mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=ghcr.io/derkoe/java-realworld-example-app:spring-boot-${GITHUB_REF:11} -pl :realworld-example-app-spring-boot
       - name: Push image to ghcr.io
         if: ${{ github.event_name != 'pull_request'}}
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           echo "${GITHUB_TOKEN}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-          docker push ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_REF:11}
+          docker push ghcr.io/derkoe/java-realworld-example-app:spring-boot-${GITHUB_REF:11}
