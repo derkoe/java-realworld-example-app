@@ -22,7 +22,7 @@ jobs:
           mvn -B package -Pnative -pl :realworld-example-app-quarkus
       - name: Build Native Image
         if: ${{ github.event_name != 'pull_request'}}
-        run: docker build -f src/main/docker/Dockerfile.native -t ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_REF:11} .
+        run: docker build -f quarkus/src/main/docker/Dockerfile.native -t ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_REF:11} quarkus
       - name: Push image to ghcr.io
         if: ${{ github.event_name != 'pull_request'}}
         run: |
