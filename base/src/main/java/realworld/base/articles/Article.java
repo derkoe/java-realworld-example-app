@@ -1,18 +1,19 @@
 package realworld.base.articles;
 
-import static javax.persistence.CascadeType.ALL;
-
-import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import realworld.base.users.User;
+
+import javax.persistence.*;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Table(name = "articles")
@@ -42,7 +43,7 @@ public class Article {
   @Column(name = "updated_at")
   private Instant updatedAt;
 
-  @ManyToMany
+  @ManyToMany(cascade = ALL)
   private Set<Tag> tags = new HashSet<>();
 
   @OneToMany(cascade = ALL, mappedBy = "article")
