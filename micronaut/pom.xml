@@ -11,13 +11,12 @@
     </parent>
 
     <artifactId>realworld-example-app-micronaut</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
-        <micronaut.version>3.2.4</micronaut.version>
-        <micronaut-build.version>3.1.0</micronaut-build.version>
-        <micronaut-spring.version>4.0.1</micronaut-spring.version>
-        <exec.mainClass>realworld.micronaut.Application</exec.mainClass>
         <micronaut.runtime>netty</micronaut.runtime>
+        <exec.executable>java</exec.executable>
+        <exec.mainClass>realworld.Application</exec.mainClass>
     </properties>
 
     <dependencyManagement>
@@ -34,59 +33,108 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>realworld-example-app-base</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-inject</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-validation</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.test</groupId>
+            <artifactId>micronaut-test-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-http-client</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-http-server</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-http-server-netty</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-runtime</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
+            <groupId>io.micronaut.data</groupId>
+            <artifactId>micronaut-data-hibernate-jpa</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.micronaut.spring</groupId>
-            <artifactId>micronaut-spring-annotation</artifactId>
-            <version>${micronaut-spring.version}</version>
+            <groupId>io.micronaut.data</groupId>
+            <artifactId>micronaut-data-spring</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.micronaut.spring</groupId>
-            <artifactId>micronaut-spring-web-annotation</artifactId>
-            <version>${micronaut-spring.version}</version>
+            <groupId>io.micronaut.data</groupId>
+            <artifactId>micronaut-data-spring-jpa</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.micronaut.spring</groupId>
-            <artifactId>micronaut-spring-web</artifactId>
-            <scope>runtime</scope>
-            <version>${micronaut-spring.version}</version>
+            <groupId>io.micronaut.sql</groupId>
+            <artifactId>micronaut-jdbc-hikari</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.micronaut.spring</groupId>
-            <artifactId>micronaut-spring-context</artifactId>
-            <scope>runtime</scope>
-            <version>${micronaut-spring.version}</version>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.spring</groupId>
+            <artifactId>micronaut-spring-boot</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.spring</groupId>
+            <artifactId>micronaut-spring-web</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
@@ -94,46 +142,10 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerArgs>
-                        <arg>-parameters</arg>
-                    </compilerArgs>
-                    <annotationProcessorPaths>
-                        <path>
-                            <!-- must precede micronaut-inject-java -->
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                        <path>
-                            <groupId>io.micronaut</groupId>
-                            <artifactId>micronaut-inject-java</artifactId>
-                            <version>${micronaut.version}</version>
-                        </path>
-                        <path>
-                            <groupId>io.micronaut</groupId>
-                            <artifactId>micronaut-validation</artifactId>
-                            <version>${micronaut.version}</version>
-                        </path>
-                        <path>
-                            <groupId>io.micronaut.spring</groupId>
-                            <artifactId>micronaut-spring-boot-annotation</artifactId>
-                            <version>${micronaut-spring.version}</version>
-                        </path>
-                        <path>
-                            <groupId>io.micronaut.spring</groupId>
-                            <artifactId>micronaut-spring-web-annotation</artifactId>
-                            <version>${micronaut-spring.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>io.micronaut.build</groupId>
                 <artifactId>micronaut-maven-plugin</artifactId>
-                <version>${micronaut-build.version}</version>
+                <version>${micronaut.build.version}</version>
+                <extensions>true</extensions>
             </plugin>
         </plugins>
     </build>

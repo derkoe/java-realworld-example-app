@@ -9,11 +9,21 @@
     <packaging>pom</packaging>
 
     <properties>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
+        <maven.compiler.parameters>true</maven.compiler.parameters>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <lombok.version>1.18.22</lombok.version>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+
+        <micronaut.version>3.2.4</micronaut.version>
+        <micronaut.build.version>3.1.0</micronaut.build.version>
+        <micronaut.spring.version>4.0.1</micronaut.spring.version>
+        <micronaut.data.version>3.2.2</micronaut.data.version>
+        <micronaut-maven-plugin.version>3.1.0</micronaut-maven-plugin.version>
+    </properties>
 
     <modules>
         <module>base</module>
@@ -32,31 +42,16 @@
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <compilerArgs>
-                        <arg>-parameters</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.jboss.jandex</groupId>
-                <artifactId>jandex-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <id>make-index</id>
-                        <goals>
-                            <goal>jandex</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>io.micronaut.build</groupId>
+                    <artifactId>micronaut-maven-plugin</artifactId>
+                    <version>${micronaut-maven-plugin.version}</version>
+                    <extensions>true</extensions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
+
 </project>

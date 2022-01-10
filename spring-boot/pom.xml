@@ -2,13 +2,13 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>realworld-example-app-spring-boot</artifactId>
-
   <parent>
     <groupId>dev.derkoe.realworld</groupId>
     <artifactId>realworld-example-app</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
+
+  <artifactId>realworld-example-app-spring-boot</artifactId>
 
   <properties>
     <spring-boot.version>2.6.2</spring-boot.version>
