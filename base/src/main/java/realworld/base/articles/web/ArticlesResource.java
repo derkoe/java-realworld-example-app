@@ -2,6 +2,7 @@ package realworld.base.articles.web;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import javax.annotation.security.RolesAllowed;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -94,5 +95,15 @@ public class ArticlesResource {
   public CommentsResponse comments(@PathVariable("slug") String slug) {
     List<CommentData> comments = articleService.comments(slug);
     return new CommentsResponse(comments, comments.size());
+  }
+
+  @DeleteMapping("/{slug}/comments/{commentId}")
+  @RolesAllowed("User")
+  public Map<String, CommentData> comment(
+    @PathVariable("slug") String slug,
+    @PathVariable("commentId") UUID commentId,
+    @RequestBody CommentRequest commentRequest
+  ) {
+    return Map.of("comment", articleService.deleteComment(commentId, authenticationService.getCurrentUserId()));
   }
 }

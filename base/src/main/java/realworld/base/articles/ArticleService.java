@@ -1,16 +1,17 @@
 package realworld.base.articles;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import realworld.base.users.UserRepository;
 import realworld.base.web.ForbiddenException;
 import realworld.base.web.NotFoundException;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -137,7 +138,7 @@ public class ArticleService {
     int favoriteCount = article.getFavorites().size();
     boolean favorited = false;
     if (userId != null) {
-      favorited = article.getFavorites().stream().filter(af -> af.getUserId().equals(userId)).count() > 0;
+      favorited = article.getFavorites().stream().anyMatch(af -> af.getUserId().equals(userId));
     }
 
     List<String> tags = article.getTags().stream().map(Tag::getName).sorted().collect(Collectors.toList());
@@ -172,5 +173,20 @@ public class ArticleService {
       .findByArticleId(article.getId())
       .map(c -> new CommentData(c.getId(), c.getBody(), c.getCreatedAt(), c.getUpdatedAt(), c.getUserId().toString()))
       .collect(Collectors.toList());
+  }
+
+  @Transactional
+  public CommentData deleteComment(UUID commentId, UUID userId) {
+    return commentRepository
+      .findById(commentId)
+      .map(c -> {
+        if (c.getUserId().equals(userId)) {
+          commentRepository.delete(c);
+          return new CommentData(c.getId(), c.getBody(), c.getCreatedAt(), c.getUpdatedAt(), c.getUserId().toString());
+        } else {
+          throw new ForbiddenException();
+        }
+      })
+      .orElseThrow(NotFoundException::new);
   }
 }
