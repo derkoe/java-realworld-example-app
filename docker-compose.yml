@@ -8,6 +8,8 @@ services:
       QUARKUS_DATASOURCE_PASSWORD: password
     depends_on:
       - database
+    ports:
+      - 8080:8080
   spring-boot:
     image: ghcr.io/derkoe/java-realworld-example-app:spring-boot-main
     environment:
@@ -16,8 +18,9 @@ services:
       SPRING_DATASOURCE_PASSWORD: password
     depends_on:
       - database
+    ports:
+      - 8080:8080
   database:
     image: postgres:14-alpine
     environment:
       POSTGRES_USER: realworld
-      POSTGRES_PASSWORD: password
