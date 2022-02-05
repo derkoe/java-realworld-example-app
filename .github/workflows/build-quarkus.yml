@@ -20,11 +20,11 @@ jobs:
         run: |
           mvn -B install
           mvn -B package -Pnative -pl :realworld-example-app-quarkus
-          docker build -f quarkus/src/main/docker/Dockerfile.native -t ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_REF:11} quarkus
+          docker build -f quarkus/src/main/docker/Dockerfile.native -t ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_HEAD_REF-${GITHUB_REF##*/}} quarkus
       - name: Push image to ghcr.io
         if: ${{ github.event_name != 'pull_request'}}
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           echo "${GITHUB_TOKEN}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-          docker push ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_REF:11}
+          docker push ghcr.io/derkoe/java-realworld-example-app:quarkus-${GITHUB_HEAD_REF-${GITHUB_REF##*/}}

@@ -19,11 +19,11 @@ jobs:
       - name: Build native image
         run: |
           mvn -B install
-          mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=ghcr.io/derkoe/java-realworld-example-app:spring-boot-${GITHUB_REF:11} -pl :realworld-example-app-spring-boot
+          mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=ghcr.io/derkoe/java-realworld-example-app:spring-boot-${GITHUB_HEAD_REF-${GITHUB_REF##*/}} -pl :realworld-example-app-spring-boot
       - name: Push image to ghcr.io
         if: ${{ github.event_name != 'pull_request'}}
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           echo "${GITHUB_TOKEN}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-          docker push ghcr.io/derkoe/java-realworld-example-app:spring-boot-${GITHUB_REF:11}
+          docker push ghcr.io/derkoe/java-realworld-example-app:spring-boot-${GITHUB_HEAD_REF-${GITHUB_REF##*/}}
