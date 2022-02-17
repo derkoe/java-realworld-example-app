@@ -12,7 +12,17 @@
 
   <properties>
     <spring-boot.version>2.6.2</spring-boot.version>
+    <native-image>false</native-image>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>native</id>
+      <properties>
+        <native-image>true</native-image>
+      </properties>
+    </profile>
+  </profiles>
 
   <dependencyManagement>
     <dependencies>
@@ -79,7 +89,7 @@
           <image>
             <builder>paketobuildpacks/builder:tiny</builder>
             <env>
-              <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+              <BP_NATIVE_IMAGE>${native-image}</BP_NATIVE_IMAGE>
             </env>
           </image>
         </configuration>
