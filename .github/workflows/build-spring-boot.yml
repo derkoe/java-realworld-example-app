@@ -16,7 +16,7 @@ jobs:
         with:
           java-version: 11
           distribution: adopt
-      - name Build
+      - name: Build
         run: mvn -B install
       - name: Build image
         run: mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=ghcr.io/derkoe/java-realworld-example-app:spring-boot -pl :realworld-example-app-spring-boot
