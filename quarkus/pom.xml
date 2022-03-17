@@ -12,7 +12,7 @@
     <artifactId>realworld-example-app-quarkus</artifactId>
 
     <properties>
-        <quarkus.platform.version>2.6.1.Final</quarkus.platform.version>
+        <quarkus.platform.version>2.7.5.Final</quarkus.platform.version>
     </properties>
 
     <dependencyManagement>
