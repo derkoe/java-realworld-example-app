@@ -5,8 +5,8 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "prettier": "^2.5.1",
-    "prettier-plugin-java": "^1.6.0"
+    "prettier": "2.7.1",
+    "prettier-plugin-java": "1.6.2"
   },
   "scripts": {
     "prettier": "prettier -c '**/*.java'"
